@@ -74,35 +74,35 @@ const login = async () => {
 }
 
 const update = async () => {
- const user = createUser()
- const id=sessionStorage.getItem("Id")
+    const user = createUser()
+    const id=sessionStorage.getItem("Id")
     try {
-        const updatePost = await fetch(`api/Users/${id}`, {
+        const response = await fetch(`api/Users/${id}`, {
             method: "PUT",
             headers: {
                 'Content-type': 'application/json'
             },
             body: JSON.stringify(user)
         });
-        if (!updatePost.ok) {
-            throw new Error(`HTTP error! status:${updatePost.status}`);
+        const data = await response.json();
+        if (!data.ok) {
+            throw new Error(`HTTP error! status:${data.status}`);
         }
         alert(`${user.FirstName} updated in sucseed😊😊😊😊😊`)
         //sessionStorage.setItem
         //update user in session
     }
     catch (error) {
-        alert()
         console.log(error)
     }
-    
 }
 
 const checkPassword = async () => {
     const Password = document.querySelector("#password").value
+    const Progress = document.querySelector("#progress")
     alert(Password)
     try {
-        const response = await fetch(`api/Users/checkpPassword`, {
+        const response = await fetch(`api/Users/checkPassword`, {
             method: "POST",
             headers: {
                 'Content-type': 'application/json'
@@ -112,12 +112,8 @@ const checkPassword = async () => {
         const data = await response.json();
         console.log(data);
         alert(data);
+        Progress.value = data+1;
     }catch (error) {
-            alert()
-            console.log(error)
+        console.log(error)
     }
-    
-    //if (check < 3)
-    //    alert("try again")
-
 }

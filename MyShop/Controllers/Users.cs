@@ -58,7 +58,7 @@ namespace MyShop.Controllers
             return NoContent();
         }
 
-        [HttpPost("checkpPassword")]
+        [HttpPost("checkPassword")]
         public ActionResult<int> checkPassword([FromBody] string password)
         {
             return Ok( servicess.CheckPassword(password));
