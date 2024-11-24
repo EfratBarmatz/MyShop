@@ -9,11 +9,11 @@ namespace Servicess
 {
     public class UserServices : IUserServices
     {
-        IUserReposetory reposetory ;
+        IUserReposetory Ireposetory ;
 
         public UserServices(IUserReposetory reposetory)
         {
-            this.reposetory = reposetory;
+            this.Ireposetory = reposetory;
         }
 
         public void Get()
@@ -23,25 +23,25 @@ namespace Servicess
 
         public User GetById(int id)
         {
-            return reposetory.GetById(id);
+            return Ireposetory.GetById(id);
         }
 
         public User Add(User user)
         {
             if (CheckPassword(user.Password) >= 3)
-                return reposetory.Add(user);
+                return Ireposetory.Add(user);
             return null;
         }
 
         public User Login(string email, string password)
         {
-            return reposetory.Login(email, password);
+            return Ireposetory.Login(email, password);
         }
 
         public User Update(int id, User userToUpdate)
         {
             if (CheckPassword(userToUpdate.Password) >= 3)
-                return reposetory.Update(id, userToUpdate);
+                return Ireposetory.Update(id, userToUpdate);
             return null;
         }
 

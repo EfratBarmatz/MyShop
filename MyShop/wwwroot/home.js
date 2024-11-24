@@ -12,7 +12,7 @@ const createUser = () => {
 }
 
 const addUser = async () => {
-   const newUser=createUser()
+   const newUser=createUser()//הפונקציה הזאת לא מגיעה לקונטרולר
     try {
         const registerPost = await fetch('api/Users', {
             method: "POST",
@@ -22,7 +22,7 @@ const addUser = async () => {
             body: JSON.stringify(newUser)
         });
         if (!registerPost.ok) {
-            throw new Error(`HTTP error! status:${loginPost.status}`);
+            throw new Error(`HTTP error! status:${registerPost.status}`);
         }
         const dataPost = await registerPost.json();
         console.log(dataPost)
@@ -112,7 +112,7 @@ const checkPassword = async () => {
         const data = await response.json();
         console.log(data);
         alert(data);
-        Progress.value = data+1;
+        Progress.value = data+1;//why +1?
     }catch (error) {
         console.log(error)
     }

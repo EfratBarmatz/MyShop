@@ -13,7 +13,7 @@ namespace Entities
         public string FirstName { get; set; }
         [StringLength(15, ErrorMessage = "LastName can be between 2 till 20 letters", MinimumLength = 2)]//last name 
         public string LastName { get; set; }
-        public int UserId { get; set; }
+        public int UserId { get; set; }//זה נראה שהחלפת ל u גדולה וזה עושה לך בעיות עם הרשומות הישנות, תבדקי
 
     } 
 }
