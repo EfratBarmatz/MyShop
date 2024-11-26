@@ -12,11 +12,11 @@ namespace MyShop.Controllers
     [ApiController]
     public class Users : ControllerBase
     {
-        IUserServices servicess ;
+        IUserServices Iservicess ;
 
         public Users(IUserServices servicess)
         {
-            this.servicess = servicess;
+           Iservicess = servicess;
         }
 
 
@@ -31,7 +31,7 @@ namespace MyShop.Controllers
         [HttpGet("{id}")]
         public ActionResult<User> Get(int id)
         {
-            User user = servicess.GetById(id);
+            User user = Iservicess.GetById(id);
              if (user!=null)
                 return Ok(user);
             return NoContent();
@@ -42,9 +42,9 @@ namespace MyShop.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] User user)
         {
-            User newUser = servicess.Add(user);
+            User newUser = Iservicess.Add(user);
             if(newUser!= null)
-                return CreatedAtAction(nameof(Get), new { id = newUser.UserId }, newUser);
+                return CreatedAtAction(nameof(Get), new { id = newUser.UserId }, newUser);//סיסמה לא חזקה לא אמורה להחזיר שגיאה אלא הודעה ברורה
             return BadRequest();
 
         }
@@ -52,7 +52,7 @@ namespace MyShop.Controllers
         [HttpPost("login")]
         public ActionResult<User> Login([FromQuery] string email, [FromQuery] string password)
         {
-            User user = servicess.Login(email,password);
+            User user = Iservicess.Login(email,password);
             if (user != null)
                 return Ok(user);
             return NoContent();
@@ -61,17 +61,17 @@ namespace MyShop.Controllers
         [HttpPost("checkPassword")]
         public ActionResult<int> checkPassword([FromBody] string password)
         {
-            return Ok( servicess.CheckPassword(password));
+            return Ok( Iservicess.CheckPassword(password));
         }
 
         // PUT api/<Users>/5
         [HttpPut("{id}")]
         public ActionResult<User> Put(int id, [FromBody] User userToUpdate)
         {
-            User user = servicess.Update(id, userToUpdate);
+            User user = Iservicess.Update(id, userToUpdate);
             if (user != null)
                 return Ok(user);
-            return BadRequest();
+            return BadRequest();//סיסמה לא חזקה לא אמורה להחזיר שגיאה אלא הודעה ברורה
         }
 
         // DELETE api/<Users>/5
