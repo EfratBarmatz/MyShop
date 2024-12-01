@@ -9,7 +9,7 @@ namespace Servicess
 {
     public class UserServices : IUserServices
     {
-        IUserReposetory reposetory ;
+        IUserReposetory reposetory;
 
         public UserServices(IUserReposetory reposetory)
         {
@@ -21,27 +21,28 @@ namespace Servicess
 
         }
 
-        public User GetById(int id)
+        public async Task<User> GetById(int id)
         {
-            return reposetory.GetById(id);
+            return await reposetory.GetById(id);
+
         }
 
-        public User Add(User user)
+        public async Task<User> Add(User user)
         {
             if (CheckPassword(user.Password) >= 3)
-                return reposetory.Add(user);
+                return await reposetory.Add(user);
             return null;
         }
 
-        public User Login(string email, string password)
+        public async Task<User> Login(string email, string password)
         {
-            return reposetory.Login(email, password);
+            return await reposetory.Login(email, password);
         }
 
-        public User Update(int id, User userToUpdate)
+        public async Task<User> Update(int id, User userToUpdate)
         {
             if (CheckPassword(userToUpdate.Password) >= 3)
-                return reposetory.Update(id, userToUpdate);
+                return await reposetory.Update(id, userToUpdate);
             return null;
         }
 

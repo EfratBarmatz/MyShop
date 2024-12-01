@@ -4,11 +4,11 @@ namespace Reposetories
 {
     public interface IUserReposetory
     {
-        User Add(User user);
-        void Delete(int id);
-        void Get();
-        User GetById(int id);
-        User Login(string email, string password);
-        User Update(int id, User userToUpdate);
+        Task<User> Add(User user);
+        Task Delete(int id);
+        Task<User> Get();
+        Task<User> GetById(int id);
+        Task<User> Login(string email, string password);
+        Task<User> Update(int id, User userToUpdate);
     }
 }

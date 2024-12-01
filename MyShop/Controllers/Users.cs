@@ -29,9 +29,9 @@ namespace MyShop.Controllers
 
         // GET api/<Users>/5
         [HttpGet("{id}")]
-        public ActionResult<User> Get(int id)
+        public async Task<ActionResult<User>> Get(int id)
         {
-            User user = servicess.GetById(id);
+            User user = await servicess.GetById(id);
              if (user!=null)
                 return Ok(user);
             return NoContent();
@@ -40,9 +40,9 @@ namespace MyShop.Controllers
 
         // POST api/<Users>
         [HttpPost]
-        public IActionResult Post([FromBody] User user)
+        public async Task<IActionResult> Post([FromBody] User user)
         {
-            User newUser = servicess.Add(user);
+            User newUser =  await servicess.Add(user);
             if(newUser!= null)
                 return CreatedAtAction(nameof(Get), new { id = newUser.UserId }, newUser);
             return BadRequest();
@@ -50,9 +50,9 @@ namespace MyShop.Controllers
         }
 
         [HttpPost("login")]
-        public ActionResult<User> Login([FromQuery] string email, [FromQuery] string password)
+        public async Task<ActionResult<User>> Login([FromQuery] string email, [FromQuery] string password)
         {
-            User user = servicess.Login(email,password);
+            User user = await servicess.Login(email,password);
             if (user != null)
                 return Ok(user);
             return NoContent();
@@ -66,9 +66,9 @@ namespace MyShop.Controllers
 
         // PUT api/<Users>/5
         [HttpPut("{id}")]
-        public ActionResult<User> Put(int id, [FromBody] User userToUpdate)
+        public  async Task<ActionResult<User>> Put(int id, [FromBody] User userToUpdate)
         {
-            User user = servicess.Update(id, userToUpdate);
+            User user = await servicess.Update(id, userToUpdate);
             if (user != null)
                 return Ok(user);
             return BadRequest();

@@ -38,7 +38,7 @@ const addUser = async () => {
 const login = async () => {
         const currentUser = {
             email: document.querySelector("#email2").value,
-            Password: document.querySelector("#password2").value
+            password: document.querySelector("#password2").value
         }
         try {
             const loginPost = await fetch(`api/Users/login?email=${currentUser.email}&password=${currentUser.password}`, {
