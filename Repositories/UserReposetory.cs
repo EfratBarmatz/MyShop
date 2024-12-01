@@ -37,7 +37,7 @@ namespace Reposetories
 
         public async Task<User> Login(string email, string password)
         {
-            User user = await myShop.Users.FirstOrDefaultAsync(u=>u.Password=password && u.Email=email);
+            User user = await myShop.Users.FirstOrDefaultAsync(currentUser=> currentUser.Password==password && currentUser.Email==email);
             return user;
         }
 
