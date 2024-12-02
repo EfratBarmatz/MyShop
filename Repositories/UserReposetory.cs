@@ -23,8 +23,8 @@ namespace Reposetories
 
         public async Task<User> GetById(int id)
         {
-            User user = await myShop.Users.FindAsync(id);
-            return user;
+            User newUser = await myShop.Users.FindAsync(id);
+            return newUser;
 
         }
 
