@@ -17,12 +17,6 @@ namespace Reposetories
             this.myShop = myShop;
         }
 
-        public async Task<List<Order>> Get()
-        {
-            List<Order> order = await myShop.Orders.ToListAsync();
-            return order;
-        }
-
         public async Task<Order> GetById(int id)
         {
             Order newOrder = await myShop.Orders.FindAsync(id);
@@ -35,13 +29,6 @@ namespace Reposetories
             await myShop.Orders.AddAsync(order);
             await myShop.SaveChangesAsync();
             return order;
-        }
-
-        public async Task<Order> Update(int id, Order OrderToUpdate)
-        {
-            myShop.Orders.Update(OrderToUpdate);
-            await myShop.SaveChangesAsync();
-            return OrderToUpdate;
         }
 
     }

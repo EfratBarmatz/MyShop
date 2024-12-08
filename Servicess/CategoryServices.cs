@@ -22,10 +22,6 @@ namespace Servicess
             return await reposetory.Get();
         }
 
-        public async Task<Category> GetById(int id)
-        {
-            return await reposetory.GetById(id);
-
-        }
+        
     }
 }

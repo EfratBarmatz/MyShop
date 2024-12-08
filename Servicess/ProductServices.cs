@@ -21,11 +21,5 @@ namespace Servicess
         {
             return await reposetory.Get();
         }
-
-        public async Task<Product> GetById(int id)
-        {
-            return await reposetory.GetById(id);
-
-        }
     }
 }

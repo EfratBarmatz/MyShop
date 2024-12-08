@@ -13,11 +13,7 @@ namespace Reposetories
             this.myShop = myShop;
         }
 
-        public async Task<User> Get()
-        {
-            //users = await myShop.Users.ToList();
-            return null;
-        }
+
 
         public async Task<User> GetById(int id)
         {
@@ -46,9 +42,6 @@ namespace Reposetories
             return userToUpdate;
         }
 
-        public async Task Delete(int id)
-        {
 
-        }
     }
 }

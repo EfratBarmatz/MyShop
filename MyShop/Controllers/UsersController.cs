@@ -19,14 +19,6 @@ namespace MyShop.Controllers
             this.servicess = servicess;
         }
 
-
-        // GET: api/<Users>
-        [HttpGet]
-        public void Get()
-        {
-
-        }
-
         // GET api/<Users>/5
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> Get(int id)
@@ -72,12 +64,6 @@ namespace MyShop.Controllers
             if (user != null)
                 return Ok(user);
             return BadRequest();
-        }
-
-        // DELETE api/<Users>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }

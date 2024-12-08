@@ -16,10 +16,7 @@ namespace Servicess
             this.reposetory = reposetory;
         }
 
-        public void Get()
-        {
-
-        }
+        
 
         public async Task<User> GetById(int id)
         {
@@ -46,10 +43,6 @@ namespace Servicess
             return null;
         }
 
-        public void Delete(int id)
-        {
-
-        }
 
         public int CheckPassword(string password)
         {

@@ -27,32 +27,6 @@ namespace MyShop.Controllers
             return BadRequest();
         }
 
-        // GET api/<CategoriesController>/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> Get(int id)
-        {
-            Category category = await services.GetById(id);
-            if (category != null)
-                return Ok(category);
-            return BadRequest();
-        }
-
-        // POST api/<CategoriesController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<CategoriesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<CategoriesController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        
     }
 }

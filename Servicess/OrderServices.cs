@@ -15,26 +15,16 @@ namespace Servicess
         {
             this.reposetory = reposetory;
         }
-
-        public async Task<List<Order>> Get()
-        {
-            return await reposetory.Get();
-        }
-
         public async Task<Order> GetById(int id)
         {
             return await reposetory.GetById(id);
 
         }
-
         public async Task<Order> Add(Order order)
         {
             return await reposetory.Add(order);
         }
 
-        public async Task<Order> Update(int id, Order OrderToUpdate)
-        {
-            return await reposetory.Update(id, OrderToUpdate);
-        }
+      
     }
 }

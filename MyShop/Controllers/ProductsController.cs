@@ -29,32 +29,7 @@ namespace MyShop.Controllers
             return BadRequest();
         }
 
-        // GET api/<ProductsController>/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> Get(int id)
-        {
-            Product product = await services.GetById(id);
-            if (product != null)
-                return Ok(product);
-            return BadRequest();
-        }
-
-        // POST api/<ProductsController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<ProductsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<ProductsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+       
+       
     }
 }

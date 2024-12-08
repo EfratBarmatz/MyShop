@@ -23,11 +23,7 @@ namespace Reposetories
             return category;
         }
 
-        public async Task<Category> GetById(int id)
-        {
-            Category thisCategory = await myShop.Categories.FindAsync(id);
-            return thisCategory;
-        }
+       
 
     }
 }

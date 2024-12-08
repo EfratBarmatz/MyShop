@@ -22,11 +22,5 @@ namespace Reposetories
             List<Product> product = await myShop.Products.ToListAsync();
             return product;
         }
-
-        public async Task<Product> GetById(int id)
-        {
-            Product thisProduct = await myShop.Products.FindAsync(id);
-            return thisProduct;
-        }
     }
 }
