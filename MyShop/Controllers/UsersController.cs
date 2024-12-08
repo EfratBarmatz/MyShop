@@ -10,11 +10,11 @@ namespace MyShop.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class Users : ControllerBase
+    public class UsersController : ControllerBase
     {
-        IUserServices servicess ;
+        IUserServices servicess;
 
-        public Users(IUserServices servicess)
+        public UsersController(IUserServices servicess)
         {
             this.servicess = servicess;
         }
@@ -24,7 +24,7 @@ namespace MyShop.Controllers
         [HttpGet]
         public void Get()
         {
-            
+
         }
 
         // GET api/<Users>/5
@@ -32,7 +32,7 @@ namespace MyShop.Controllers
         public async Task<ActionResult<User>> Get(int id)
         {
             User user = await servicess.GetById(id);
-             if (user!=null)
+            if (user != null)
                 return Ok(user);
             return NoContent();
 
@@ -42,9 +42,9 @@ namespace MyShop.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] User user)
         {
-            User newUser =  await servicess.Add(user);
-            if(newUser!= null)
-                return CreatedAtAction(nameof(Get), new { id = newUser.UserId }, newUser);
+            User newUser = await servicess.Add(user);
+            if (newUser != null)
+                return CreatedAtAction(nameof(Get), new { id = newUser.Id }, newUser);
             return BadRequest();
 
         }
@@ -52,7 +52,7 @@ namespace MyShop.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<User>> Login([FromQuery] string email, [FromQuery] string password)
         {
-            User user = await servicess.Login(email,password);
+            User user = await servicess.Login(email, password);
             if (user != null)
                 return Ok(user);
             return NoContent();
@@ -61,12 +61,12 @@ namespace MyShop.Controllers
         [HttpPost("checkPassword")]
         public ActionResult<int> checkPassword([FromBody] string password)
         {
-            return Ok( servicess.CheckPassword(password));
+            return Ok(servicess.CheckPassword(password));
         }
 
         // PUT api/<Users>/5
         [HttpPut("{id}")]
-        public  async Task<ActionResult<User>> Put(int id, [FromBody] User userToUpdate)
+        public async Task<ActionResult<User>> Put(int id, [FromBody] User userToUpdate)
         {
             User user = await servicess.Update(id, userToUpdate);
             if (user != null)

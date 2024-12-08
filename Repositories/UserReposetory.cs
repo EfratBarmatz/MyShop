@@ -7,8 +7,6 @@ namespace Reposetories
     public class UserReposetory : IUserReposetory
     {
         MyShop327707238Context myShop;
-
-        List<User> users = new();
         User u = new();
         public UserReposetory(MyShop327707238Context myShop)
         {
@@ -37,7 +35,7 @@ namespace Reposetories
 
         public async Task<User> Login(string email, string password)
         {
-            User user = await myShop.Users.FirstOrDefaultAsync(currentUser=> currentUser.Password==password && currentUser.Email==email);
+            User user = await myShop.Users.FirstOrDefaultAsync(currentUser => currentUser.Password == password && currentUser.Email == email);
             return user;
         }
 
@@ -50,7 +48,7 @@ namespace Reposetories
 
         public async Task Delete(int id)
         {
-            
+
         }
     }
 }
