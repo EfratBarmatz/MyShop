@@ -24,8 +24,10 @@ namespace Reposetories
 
         public async Task<User> Add(User user)
         {
-            await myShop.Users.AddAsync(user);
+            var res=await myShop.Users.AddAsync(user);
             await myShop.SaveChangesAsync();
+            //return res - the created user with the id
+
             return user;
         }
 
