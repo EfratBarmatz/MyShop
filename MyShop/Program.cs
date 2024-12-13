@@ -12,9 +12,8 @@ builder.Services.AddScoped<IUserReposetory, UserReposetory>();
 builder.Services.AddScoped<IProductReposetory, ProductReposetory>();
 builder.Services.AddScoped<ICategoryReposetory, CategoryReposetory>();
 builder.Services.AddScoped<IOrderReposetory, OrderReposetory>();
-builder.Services.AddDbContext<MyShop327707238Context>(options => options.UseSqlServer
-("data source=srv2\\pupils;initial catalog=MyShop_327707238;Integrated Security=SSPI;Persist Security Info=False;TrustServerCertificate=true"));
- 
+builder.Services.AddDbContext<MyShop327707238Context>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("School")));
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 // Add services to the container.
 
 builder.Services.AddControllers();

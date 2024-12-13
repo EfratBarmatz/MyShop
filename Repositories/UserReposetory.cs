@@ -37,6 +37,7 @@ namespace Reposetories
 
         public async Task<User> Update(int id, User userToUpdate)
         {
+            userToUpdate.Id = id;
             myShop.Users.Update(userToUpdate);
             await myShop.SaveChangesAsync();
             return userToUpdate;

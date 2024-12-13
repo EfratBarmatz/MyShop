@@ -19,7 +19,8 @@ namespace Reposetories
 
         public async Task<List<Product>> Get()
         {
-            List<Product> product = await myShop.Products.ToListAsync();
+           
+            List<Product> product = await myShop.Products.Include(c => c.Category).ToListAsync();
             return product;
         }
     }

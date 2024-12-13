@@ -63,7 +63,7 @@ const login = async () => {
                 throw new Error(`HTTP error! status:${loginPost.status}`);
             }
 
-            sessionStorage.setItem("Id", data.userId)
+            sessionStorage.setItem("Id",JSON.stringify( data.id))
             window.location.href = 'update.html'
 
         }

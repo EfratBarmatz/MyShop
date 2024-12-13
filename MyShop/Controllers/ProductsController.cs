@@ -1,4 +1,6 @@
-﻿using Entities;
+﻿using AutoMapper;
+using DTO;
+using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Servicess;
 using System.Collections.Generic;
@@ -13,19 +15,22 @@ namespace MyShop.Controllers
     public class ProductsController : ControllerBase
     {
         IProductServices services;
-        public ProductsController(IProductServices services)
+        IMapper mapper;
+        public ProductsController(IProductServices services,IMapper mapper)
         {
             this.services = services;
+            this.mapper = mapper;
         }
         // GET: api/<ProductsController>
         [HttpGet]
 
 
-        public async Task<ActionResult<List<Product>>> Get()
+        public async Task<ActionResult<List<ProductDTO>>> Get()
         {
-            List<Product> product = await services.Get();
-            if (product != null)
-                return Ok(product);
+            List<Product> products = await services.Get();
+            List<ProductDTO> productsDTO = mapper.Map<List<Product>, List<ProductDTO>>(products);
+            if (productsDTO != null)
+                return Ok(productsDTO);
             return BadRequest();
         }
 
