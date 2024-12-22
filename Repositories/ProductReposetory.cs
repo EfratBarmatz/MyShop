@@ -17,11 +17,19 @@ namespace Reposetories
             this.myShop = myShop;
         }
 
-        public async Task<List<Product>> Get()
+        public async Task<List<Product>> Get(string? desc, float? minPrice, float? maxPrice, int?[] categoryIds)
         {
-           
-            List<Product> product = await myShop.Products.Include(c => c.Category).ToListAsync();
-            return product;
+
+            var query = myShop.Products.Where(product =>
+                (desc == null ? (true) : (product.Name.Contains(desc)))
+                && ((minPrice == null) ? (true) : (product.Price >= minPrice))
+                && ((maxPrice == null) ? (true) : (product.Price <= maxPrice))
+                && ((categoryIds.Length == 0) ? (true) : (categoryIds.Contains(product.CategoryId))))
+               .OrderBy(product => product.Price);
+            Console.WriteLine(query.ToQueryString());
+            List<Product> products = await query.Include(c => c.Category).ToListAsync();
+            return products;
+
         }
     }
 }

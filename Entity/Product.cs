@@ -9,11 +9,11 @@ public partial class Product
 
     public int CategoryId { get; set; }
 
-    public string? ProductName { get; set; }
+    public string? Name { get; set; }
 
-    public string DescreaptionProduct { get; set; } = null!;
+    public string Descreaption { get; set; } = null!;
 
-    public string? Price { get; set; }
+    public double? Price { get; set; }
 
     public string Image { get; set; } = null!;
 

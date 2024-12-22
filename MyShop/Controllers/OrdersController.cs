@@ -14,13 +14,13 @@ namespace MyShop.Controllers
     {
         IOrderServices services;
         IMapper mapper;
-        public OrdersController(IOrderServices services,IMapper mapper)
+        public OrdersController(IOrderServices services, IMapper mapper)
         {
             this.services = services;
             this.mapper = mapper;
         }
 
-        
+
         // GET api/<OrdersController>/5
         [HttpGet("{id}")]
         public async Task<ActionResult<OrderDTOGet>> Get(int id)
@@ -35,9 +35,9 @@ namespace MyShop.Controllers
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] OrderDTOPost order)
         {
-            Order newOrder = await services.Add(mapper.Map<OrderDTOPost,Order>(order));
+            Order newOrder = await services.Add(mapper.Map<OrderDTOPost, Order>(order));
             if (newOrder != null)
-                return CreatedAtAction(nameof(Get), new { id = newOrder.Id }, mapper.Map<Order,OrderDTOGet>(newOrder));
+                return CreatedAtAction(nameof(Get), new { id = newOrder.Id }, mapper.Map<Order, OrderDTOGet>(newOrder));
             return BadRequest();
         }
     }

@@ -6,6 +6,6 @@ namespace Reposetories
     {
         Task<Order> Add(Order order);
         Task<Order> GetById(int id);
-       
+
     }
 }

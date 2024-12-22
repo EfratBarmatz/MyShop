@@ -9,14 +9,14 @@ using System.Collections.Generic;
 
 namespace MyShop.Controllers
 {
-   
+
     [Route("api/[controller]")]
     [ApiController]
     public class ProductsController : ControllerBase
     {
         IProductServices services;
         IMapper mapper;
-        public ProductsController(IProductServices services,IMapper mapper)
+        public ProductsController(IProductServices services, IMapper mapper)
         {
             this.services = services;
             this.mapper = mapper;
@@ -25,16 +25,16 @@ namespace MyShop.Controllers
         [HttpGet]
 
 
-        public async Task<ActionResult<List<ProductDTO>>> Get()
+        public async Task<ActionResult<List<ProductDTO>>> Get(string? desc,float? minPrice,float? maxPrice, [FromQuery] int?[] categoryIds)
         {
-            List<Product> products = await services.Get();
+            List<Product> products = await services.Get(desc,minPrice, maxPrice, categoryIds);
             List<ProductDTO> productsDTO = mapper.Map<List<Product>, List<ProductDTO>>(products);
             if (productsDTO != null)
                 return Ok(productsDTO);
             return BadRequest();
         }
 
-       
-       
+
+
     }
 }

@@ -14,7 +14,7 @@ namespace MyShop.Controllers
     {
         ICategoryServices services;
         IMapper mapper;
-        public CategoriesController(ICategoryServices services,IMapper mapper)
+        public CategoriesController(ICategoryServices services, IMapper mapper)
         {
             this.services = services;
             this.mapper = mapper;
@@ -25,10 +25,10 @@ namespace MyShop.Controllers
         public async Task<ActionResult<List<CategoryDTO>>> Get()
         {
             List<Category> categories = await services.Get();
-            List<CategoryDTO> categoriesDTO = mapper.Map<List<Category>,List<CategoryDTO>>(categories) ;
+            List<CategoryDTO> categoriesDTO = mapper.Map<List<Category>, List<CategoryDTO>>(categories);
             if (categoriesDTO != null)
                 return Ok(categoriesDTO);
             return BadRequest();
-        }   
+        }
     }
 }

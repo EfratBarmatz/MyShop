@@ -16,7 +16,7 @@ namespace MyShop.Controllers
     {
         IUserServices servicess;
         IMapper mapper;
-        public UsersController(IUserServices servicess,IMapper mapper)
+        public UsersController(IUserServices servicess, IMapper mapper)
         {
             this.servicess = servicess;
             this.mapper = mapper;
@@ -37,7 +37,7 @@ namespace MyShop.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] UserDTO user)
         {
-            User newUser = await servicess.Add(mapper.Map<UserDTO,User>(user));
+            User newUser = await servicess.Add(mapper.Map<UserDTO, User>(user));
             if (newUser != null)
                 return CreatedAtAction(nameof(Get), new { id = newUser.Id }, mapper.Map<User, UserDTOGet>(newUser));
             return BadRequest();

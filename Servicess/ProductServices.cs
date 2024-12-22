@@ -17,9 +17,9 @@ namespace Servicess
             this.reposetory = reposetory;
         }
 
-        public async Task<List<Product>> Get()
+        public async Task<List<Product>> Get(string? desc, float? minPrice, float? maxPrice, int?[] categoryIds)
         {
-            return await reposetory.Get();
+            return await reposetory.Get(desc, minPrice, maxPrice, categoryIds);
         }
     }
 }
