@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace DTO
 {
-    public record OrderDTO(string Id,string UserFirstName, DateOnly Date, int? Sum, ICollection<string>ProductName);
+    public record OrderDTOPost(string UserId, DateOnly Date,List<OrderItemDTO> OrderItems);
+    public record OrderDTOGet(int Id, string UserFirstName, DateOnly Date, int? Sum);  
     
 }

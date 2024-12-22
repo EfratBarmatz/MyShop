@@ -19,7 +19,7 @@ namespace Reposetories
 
         public async Task<Order> GetById(int id)
         {
-            Order newOrder = await myShop.Orders.FindAsync(id);
+            Order newOrder = await myShop.Orders.Include(o => o.User).Include(o=>o.OrderItems).FirstOrDefaultAsync(order => order.Id == id);
             return newOrder;
 
         }
@@ -30,6 +30,7 @@ namespace Reposetories
             await myShop.SaveChangesAsync();
             return order;
         }
+       
 
     }
 }

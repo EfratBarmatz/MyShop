@@ -23,22 +23,21 @@ namespace MyShop.Controllers
         
         // GET api/<OrdersController>/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<OrderDTO>> Get(int id)
+        public async Task<ActionResult<OrderDTOGet>> Get(int id)
         {
             Order order = await services.GetById(id);
-            OrderDTO orderDTO = mapper.Map<Order, OrderDTO>(order);
-            if (orderDTO != null)
-                return Ok(orderDTO);
+            if (order != null)
+                return Ok(mapper.Map<Order, OrderDTOGet>(order));
             return BadRequest();
         }
 
         // POST api/<OrdersController>
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] Order order)
+        public async Task<ActionResult> Post([FromBody] OrderDTOPost order)
         {
-            Order newOrder = await services.Add(order);
+            Order newOrder = await services.Add(mapper.Map<OrderDTOPost,Order>(order));
             if (newOrder != null)
-                return CreatedAtAction(nameof(Get), new { id = newOrder.Id }, newOrder);
+                return CreatedAtAction(nameof(Get), new { id = newOrder.Id }, mapper.Map<Order,OrderDTOGet>(newOrder));
             return BadRequest();
         }
     }
