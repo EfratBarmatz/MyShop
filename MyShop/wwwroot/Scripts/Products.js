@@ -58,7 +58,7 @@ const drawTemplete = (product) => {
     cloneProduct.querySelector("h1").textContent = product.name
     cloneProduct.querySelector(".price").innerText = product.price
     cloneProduct.querySelector(".description").innerText = product.descreaption
-    //cloneProduct.querySelector(".button").addEventListener('click', () => { addToCart(product) })
+    //cloneProduct.querySelector(".button").addEventListener('click', () => { addToShoppingBag(product) })
     document.getElementById("PoductList").appendChild(cloneProduct)
 
 }
