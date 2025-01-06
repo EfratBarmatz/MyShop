@@ -40,9 +40,6 @@ const filterProducts = async () => {
             headers: {
                 'Content-type': 'application/json'
             }
-            //query: {
-            //    categoryIds: currentSearch.categories
-            //}
         });
         if (searchPost.status == 204)
             alert("not found product")
@@ -51,7 +48,6 @@ const filterProducts = async () => {
         const data = await searchPost.json();
         document.querySelector("#counter").textContent=data.length
         draw(data)
-        /*drawCategory()*/
     }
     catch (error) {
         alert("try again"+ error)
