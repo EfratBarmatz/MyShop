@@ -9,9 +9,9 @@
 })
 
 const getData = () => {
-        nameSearch = document.querySelector("#nameSearch").value;
-        minPrice = parseFloat(document.querySelector("#minPrice").value);
-        maxPrice = parseFloat(document.querySelector("#maxPrice").value);
+        nameSearch = document.getElementById("nameSearch").value;
+        minPrice = parseFloat(document.getElementById("minPrice").value);
+        maxPrice = parseFloat(document.getElementById("maxPrice").value);
         categories = sessionStorage.getItem("category")||[]
        
     return { nameSearch, minPrice, maxPrice, categories }
@@ -46,7 +46,7 @@ const filterProducts = async () => {
         if (!searchPost.ok)
             throw new Error(`HTTP error! status:${searchPost.status}`);
         const data = await searchPost.json();
-        document.querySelector("#counter").textContent=data.length
+        document.getElementById("counter").textContent=data.length
         draw(data)
     }
     catch (error) {

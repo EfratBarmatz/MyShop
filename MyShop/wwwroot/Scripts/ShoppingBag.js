@@ -4,7 +4,7 @@
 
 const drawTemplete = (product) => {
     let url = `./Images/${product.image}`
-    const templete = document.querySelector("#temp-row");
+    const templete = document.getElementById("temp-row");
     let cloneProduct = templete.content.cloneNode(true)
     cloneProduct.querySelector(".image").style.backgroundImage = `url(${url})`
     cloneProduct.querySelector(".itemName").textContent = product.name
@@ -16,16 +16,16 @@ const drawTemplete = (product) => {
 
 const draw = (products) => {
     document.querySelector("tbody").innerHTML = ""
-    document.querySelector("#itemCount").textContent = products.length
+    document.getElementById("itemCount").textContent = products.length
     let sum=0
     for (let i = 0; i < products.length; i++) {
         sum +=parseInt( products[i].price)
         drawTemplete(products[i])
     }
-    document.querySelector("#totalAmount").textContent = sum +"$"
+    document.getElementById("totalAmount").textContent = sum +"$"
 }
 
-deleteProduct = (product) => {
+const deleteProduct = (product) => {
     let products = JSON.parse(sessionStorage.getItem("shoppingBag"))
     let i = 0
     for (; i < products.length; i++) {
@@ -47,7 +47,7 @@ const generateDate = () => {
         return currentDate
 }
 
-placeOrder = async () => {
+const placeOrder = async () => {
     let user = JSON.parse(sessionStorage.getItem("Id")) || null
     console.log(user)
     if (user == null)
