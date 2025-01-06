@@ -39,10 +39,10 @@ const filterProducts = async () => {
             method: "GET",
             headers: {
                 'Content-type': 'application/json'
-            },
-            query: {
-                categoryIds: currentSearch.categories
             }
+            //query: {
+            //    categoryIds: currentSearch.categories
+            //}
         });
         if (searchPost.status == 204)
             alert("not found product")
@@ -51,6 +51,7 @@ const filterProducts = async () => {
         const data = await searchPost.json();
         document.querySelector("#counter").textContent=data.length
         draw(data)
+        /*drawCategory()*/
     }
     catch (error) {
         alert("try again"+ error)
@@ -76,7 +77,7 @@ const drawTemplete = (product) => {
     document.getElementById("PoductList").appendChild(cloneProduct)
 }
 
-getCategories =async () => {
+const getCategories =async () => {
     try {
         const getCategory = await fetch("api/Categories", {
             method: "GET",
@@ -98,8 +99,8 @@ getCategories =async () => {
     }
 }
 
-drawCategory =async () => {
-    categories = await getCategories()
+const drawCategory =async () => {
+    let categories = await getCategories()
     for (let i = 0; i < categories.length; i++) {
         const templete = document.querySelector("#temp-category");
         let cloneCategory = templete.content.cloneNode(true)
@@ -110,7 +111,7 @@ drawCategory =async () => {
     }
 }    
 
-fillterCategory = (category,index) => {
+const fillterCategory = (category,index) => {
     if (document.getElementById(index).checked) {
         let categories = JSON.parse( sessionStorage.getItem("category"))
 
@@ -132,11 +133,10 @@ fillterCategory = (category,index) => {
     filterProducts()
 }
 
-addToShoppingBag = (product) => {
+const addToShoppingBag = (product) => {
     let bags =JSON.parse( sessionStorage.getItem("shoppingBag"))
     
     bags.push(product)
     sessionStorage.setItem("shoppingBag", JSON.stringify(bags))
     document.getElementById("ItemsCountText").textContent = parseInt(document.getElementById("ItemsCountText").textContent) +1
 }
-   
