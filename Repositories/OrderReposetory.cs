@@ -19,7 +19,7 @@ namespace Reposetories
 
         public async Task<Order> GetById(int id)
         {
-            Order newOrder = await myShop.Orders.Include(o => o.User).Include(o => o.OrderItems).FirstOrDefaultAsync(order => order.Id == id);
+            Order newOrder = await myShop.Orders.Include(o => o.User).Include(o => o.OrderItems).FirstOrDefaultAsync(order => order.Id == id);//return await...
             return newOrder;
 
         }

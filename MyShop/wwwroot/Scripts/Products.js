@@ -110,25 +110,28 @@ drawCategory =async () => {
     }
 }    
 
-fillterCategory = (category,index) => {
+fillterCategory = (category, index) => {
+    //get categories anway
     if (document.getElementById(index).checked) {
-        let categories = JSON.parse( sessionStorage.getItem("category"))
+        let categories = JSON.parse( sessionStorage.getItem("category"))//
 
         categories.push(category.id)
-        sessionStorage.setItem("category",JSON.stringify(categories))
+        sessionStorage.setItem("category",JSON.stringify(categories))//
     }
     else {
-        let categories = sessionStorage.getItem("category")
+        let categories = sessionStorage.getItem("category")//
         categories = JSON.parse(categories)
         let i = 0
+        //use indexOf instead of for- categories.indexOf(category.id)
         for (; i < categories.length; i++) {
             if (categories[i] == category.id) {
                 break;
             }
         }
         categories.splice(i,1)
-        sessionStorage.setItem("category", JSON.stringify(categories))
+        sessionStorage.setItem("category", JSON.stringify(categories))//
     }
+    //set categories anyway
     filterProducts()
 }
 

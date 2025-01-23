@@ -27,6 +27,7 @@ const draw = (products) => {
 
 deleteProduct = (product) => {
     let products = JSON.parse(sessionStorage.getItem("shoppingBag"))
+    //use indexOf instead of for loop
     let i = 0
     for (; i < products.length; i++) {
         if (products[i].id == product.id) {
@@ -68,7 +69,7 @@ placeOrder = async () => {
             },
             body: JSON.stringify({
                 userId: user,
-                date:"2025-01-05",
+                date:"2025-01-05",//?
                 orderItems: products
             })
         });

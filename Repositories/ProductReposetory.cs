@@ -26,7 +26,7 @@ namespace Reposetories
                 && ((maxPrice == null) ? (true) : (product.Price <= maxPrice))
                 && ((categoryIds.Length == 0) ? (true) : (categoryIds.Contains(product.CategoryId))))
                .OrderBy(product => product.Price);
-            Console.WriteLine(query.ToQueryString());
+            Console.WriteLine(query.ToQueryString());//
             List<Product> products = await query.Include(c => c.Category).ToListAsync();
             return products;
 
