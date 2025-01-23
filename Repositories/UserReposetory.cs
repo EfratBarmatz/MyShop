@@ -17,7 +17,7 @@ namespace Reposetories
 
         public async Task<User> GetById(int id)
         {
-            User newUser = await myShop.Users.FindAsync(id);
+            User newUser = await myShop.Users.FindAsync(id);//return await...
             return newUser;
 
         }
@@ -32,7 +32,7 @@ namespace Reposetories
         public async Task<User> Login(string email, string password)
         {
             User user = await myShop.Users.FirstOrDefaultAsync(currentUser => currentUser.Password == password && currentUser.Email == email);
-            return user;
+            return user;//return await...
         }
 
         public async Task<User> Update(int id, User userToUpdate)
