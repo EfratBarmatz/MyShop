@@ -97,7 +97,7 @@ const getCategories =async () => {
 
 const drawCategory =async () => {
     let categories = await getCategories()
-    for (let i = 0; i < categories.length; i++) {
+    for (let i = 0; i < categories?.length; i++) {
         const templete = document.querySelector("#temp-category");
         let cloneCategory = templete.content.cloneNode(true)
         cloneCategory.querySelector("input").id=i

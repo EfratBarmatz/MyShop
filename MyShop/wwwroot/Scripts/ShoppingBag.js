@@ -16,9 +16,9 @@ const drawTemplete = (product) => {
 
 const draw = (products) => {
     document.querySelector("tbody").innerHTML = ""
-    document.getElementById("itemCount").textContent = products.length
+    document.getElementById("itemCount").textContent = products?.length
     let sum=0
-    for (let i = 0; i < products.length; i++) {
+    for (let i = 0; i < products?.length; i++) {
         sum +=parseInt( products[i].price)
         drawTemplete(products[i])
     }
@@ -28,7 +28,7 @@ const draw = (products) => {
 const deleteProduct = (product) => {
     let products = JSON.parse(sessionStorage.getItem("shoppingBag"))
     let i = 0
-    for (; i < products.length; i++) {
+    for (; i < products?.length; i++) {
         if (products[i].id == product.id) {
             break;
         }
@@ -55,7 +55,7 @@ const placeOrder = async () => {
     let shoppingBag = JSON.parse(sessionStorage.getItem("shoppingBag"))||[]
     let products = []
     let sum =0
-    for (let i = 0; i < shoppingBag.length; i++) {
+    for (let i = 0; i < shoppingBag?.length; i++) {
         let thisProduct = { ProductId: shoppingBag[i].id, Quentity: 1 };
         sum += shoppingBag[i].price
         products.push(thisProduct)
