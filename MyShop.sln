@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Reposetories", "Repositorie
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Servicess", "Servicess\Servicess.csproj", "{8DB3E431-7123-4AE0-B7C9-A6AF30146F8E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTO", "DTO\DTO.csproj", "{2A29ACF5-0464-4A73-A1F6-37A938EECAFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DTO", "DTO\DTO.csproj", "{2A29ACF5-0464-4A73-A1F6-37A938EECAFC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{8A313894-68DB-4575-8E6B-88C98DF1BD06}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{2A29ACF5-0464-4A73-A1F6-37A938EECAFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A29ACF5-0464-4A73-A1F6-37A938EECAFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A29ACF5-0464-4A73-A1F6-37A938EECAFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A313894-68DB-4575-8E6B-88C98DF1BD06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A313894-68DB-4575-8E6B-88C98DF1BD06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A313894-68DB-4575-8E6B-88C98DF1BD06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A313894-68DB-4575-8E6B-88C98DF1BD06}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
