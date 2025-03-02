@@ -4,6 +4,6 @@ namespace Servicess
 {
     public interface IRatingServices
     {
-        Task<Rating> Post(Rating rating);
+        Task Post(Rating rating);
     }
 }

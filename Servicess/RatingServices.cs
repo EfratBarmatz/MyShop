@@ -17,10 +17,10 @@ namespace Servicess
             this.reposetory = reposetory;
         }
 
-        public async Task<Rating> Post(Rating rating)
+        public async Task Post(Rating rating)
         {
 
-            return await reposetory.Post(rating);
+             await reposetory.Post(rating);
 
         }
     }
