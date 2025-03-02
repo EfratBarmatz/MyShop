@@ -1,90 +1,94 @@
 ﻿addEventListener("load", () => {
-    draw(JSON.parse(sessionStorage.getItem("shoppingBag")))
-})
+    const shoppingBag = JSON.parse(sessionStorage.getItem("shoppingBag")) || [];
+    renderShoppingBag(shoppingBag);
+});
 
-const drawTemplete = (product) => {
-    let url = `./Images/${product.image}`
-    const templete = document.getElementById("temp-row");
-    let cloneProduct = templete.content.cloneNode(true)
-    cloneProduct.querySelector(".image").style.backgroundImage = `url(${url})`
-    cloneProduct.querySelector(".itemName").textContent = product.name
-    cloneProduct.querySelector(".itemNumber").innerText = product.price + "$"
-    
-    cloneProduct.querySelector(".expandoHeight").addEventListener('click', () => { deleteProduct(product) })
-    document.querySelector("tbody").appendChild(cloneProduct)
-}
+const renderShoppingBag = (products) => {
+    document.getElementById("itemCount").textContent = products?.length || 0;
 
-const draw = (products) => {
-    document.querySelector("tbody").innerHTML = ""
-    document.getElementById("itemCount").textContent = products?.length
-    let sum=0
-    for (let i = 0; i < products?.length; i++) {
-        sum +=parseInt( products[i].price)
-        drawTemplete(products[i])
-    }
-    document.getElementById("totalAmount").textContent = sum +"$"
-}
+    let totalSum = calculateTotalSum(products);
+    updateTotalAmount(totalSum);
+    renderProducts(products);
+};
 
-const deleteProduct = (product) => {
-    let products = JSON.parse(sessionStorage.getItem("shoppingBag"))
-    let i = 0
-    for (; i < products?.length; i++) {
-        if (products[i].id == product.id) {
-            break;
-        }
-    }
-    products.splice(i, 1)
-    sessionStorage.setItem("shoppingBag", JSON.stringify(products))
-    draw(JSON.parse(sessionStorage.getItem("shoppingBag")))
-}
+const calculateTotalSum = (products) => {
+    return products.reduce((sum, product) => sum + parseFloat(product.price), 0);
+};
+
+const updateTotalAmount = (sum) => {
+    document.getElementById("totalAmount").textContent = `${sum}$`;
+};
+
+const renderProducts = (products) => {
+    const tbody = document.querySelector("tbody");
+    tbody.innerHTML = "";
+    products.forEach(drawTemplate);
+};
+
+const drawTemplate = (product) => {
+    const template = document.getElementById("temp-row");
+    const clonedProduct = template.content.cloneNode(true);
+    clonedProduct.querySelector(".image").style.backgroundImage = `url(./Images/${product.image})`;
+    clonedProduct.querySelector(".itemName").textContent = product.name;
+    clonedProduct.querySelector(".itemNumber").innerText = `${product.price}$`;
+    clonedProduct.querySelector(".expandoHeight").addEventListener('click', () => removeProductFromBag(product));
+    document.querySelector("tbody").appendChild(clonedProduct);
+};
+
+const removeProductFromBag = (product) => {
+    let shoppingBag = JSON.parse(sessionStorage.getItem("shoppingBag")) || [];
+    shoppingBag = shoppingBag.filter(item => item.id !== product.id);
+    sessionStorage.setItem("shoppingBag", JSON.stringify(shoppingBag));
+    renderShoppingBag(shoppingBag);
+};
 
 const generateDate = () => {
-        const date = new Date();
-        let day = date.getDate();
-        let month = date.getMonth() + 1;
-        let year = date.getFullYear();
-        let currentDate = `${year}-${month}-${day}`;
-        return currentDate
-}
+    const date = new Date();
+    let day = date.getDate().toString().padStart(2, "0");
+    let month = (date.getMonth() + 1).toString().padStart(2, "0");
+    let year = date.getFullYear();
+    return `${year}-${month}-${day}`;
+};
 
 const placeOrder = async () => {
-    let user = JSON.parse(sessionStorage.getItem("Id")) || null
-    console.log(user)
-    if (user == null)
-        window.location.href = 'Home.html'
-    let shoppingBag = JSON.parse(sessionStorage.getItem("shoppingBag"))||[]
-    let products = []
-    let sum =0
-    for (let i = 0; i < shoppingBag?.length; i++) {
-        let thisProduct = { ProductId: shoppingBag[i].id, Quentity: 1 };
-        sum += shoppingBag[i].price
-        products.push(thisProduct)
+    const userId = JSON.parse(sessionStorage.getItem("Id")) || null;
+    if (!userId) {
+        window.location.href = 'Home.html';
+        return;
     }
+
+    const shoppingBag = JSON.parse(sessionStorage.getItem("shoppingBag")) || [];
+    const orderItems = shoppingBag.map(product => ({ ProductId: product.id, Quentity: 1 }));
+
+
     try {
-        const orderPost = await fetch("api/Orders", {
+        const response = await fetch("api/Orders", {
             method: "POST",
             headers: {
                 'Content-type': 'application/json'
             },
             body: JSON.stringify({
-                userId: user,
-                date:"2025-01-05",
-                orderItems: products
+                userId: userId,
+                date: generateDate(),
+                orderItems: orderItems,
+                sum: calculateTotalSum(shoppingBag)
             })
         });
-        if (orderPost.status == 204)
-            alert("not found product")
-        if (!orderPost.ok)
-            throw new Error(`HTTP error! status:${orderPost.status}`);
-        const data = await orderPost.json();
-        console.log(data)
-        alert(`number order ${data.id} secssed`)
-        sessionStorage.setItem("shoppingBag",JSON.stringify([]))
-        window.location.href = 'Products.html'
-    }
-    catch (error) {
-        alert("try again" + error)
-        console.log(error)
-    }
 
-}
+        if (!response.ok) {
+            if (response.status === 204) {
+                alert("No products found");
+            } else {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+        }
+
+        const orderData = await response.json();
+        alert(`Order placed successfully! Order number: ${orderData.id} Order totalAmount ${orderData.sum} `);
+        sessionStorage.setItem("shoppingBag", JSON.stringify([])); // Clear the shopping bag
+        window.location.href = 'Products.html'; // Redirect to Products page after order
+    } catch (error) {
+        alert("Error placing order: " + error);
+        console.error(error);
+    }
+};
