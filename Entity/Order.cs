@@ -11,7 +11,7 @@ public partial class Order
 
     public DateOnly Date { get; set; }
 
-    public int? Sum { get; set; }
+    public float Sum { get; set; }
 
     public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 

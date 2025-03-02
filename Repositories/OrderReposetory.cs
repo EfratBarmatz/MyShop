@@ -24,7 +24,7 @@ namespace Reposetories
 
         }
 
-        public async Task<Order> Add(Order order)
+        public async Task<Order> Post(Order order)
         {
             await myShop.Orders.AddAsync(order);
             await myShop.SaveChangesAsync();

@@ -13,7 +13,7 @@ public partial class Product
 
     public string Descreaption { get; set; } = null!;
 
-    public double? Price { get; set; }
+    public float Price { get; set; }
 
     public string Image { get; set; } = null!;
 

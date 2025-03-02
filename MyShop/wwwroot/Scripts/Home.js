@@ -4,15 +4,15 @@
 }
 
 const createUser = () => {
-        email= document.querySelector("#email").value,
-        Password= document.querySelector("#password").value,
-        FirstName=document.querySelector("#fname").value,
-        LastName=document.querySelector("#lname").value
-    return {email,Password,FirstName,LastName}
+    email = document.querySelector("#email").value,
+        Password = document.querySelector("#password").value,
+        FirstName = document.querySelector("#fname").value,
+        LastName = document.querySelector("#lname").value
+    return { email, Password, FirstName, LastName }
 }
 
 const addUser = async () => {
-   const newUser=createUser()
+    const newUser = createUser();
     try {
         const registerPost = await fetch('api/Users', {
             method: "POST",
@@ -22,60 +22,55 @@ const addUser = async () => {
             body: JSON.stringify(newUser)
         });
         if (!registerPost.ok) {
-            throw new Error(`HTTP error! status:${loginPost.status}`);
+            throw new Error(`HTTP error! status:${registerPost.status}`);  // כאן זה היה loginPost
         }
         const dataPost = await registerPost.json();
-        console.log(dataPost)
-        alert(`hi ${FirstName} you need to login`)
-    }
-    catch (error) {
-        console.log(error)
-        alert(error)
-        
+        console.log(dataPost);
+        alert(`Hi ${newUser.FirstName}, you need to login!`);
+    } catch (error) {
+        console.log(error);
+        alert(error);
     }
 }
+
 
 const login = async () => {
-        const currentUser = {
-            email: document.querySelector("#email2").value,
-            password: document.querySelector("#password2").value
-        }
-        try {
-            const loginPost = await fetch(`api/Users/login?email=${currentUser.email}&password=${currentUser.password}`, {
-                method: "POST",
-                headers: {
-                    'Content-type': 'application/json'
-                },
-                query: {
-                    email: currentUser.email,
-                    password: currentUser.password
-                }
-            });
-            if(loginPost.status==204)
-                alert("not found")
-            if(!loginPost.ok)
-                throw new Error(`HTTP error! status:${loginPost.status}`);
+    const currentUser = {
+        email: document.querySelector("#email2").value,
+        password: document.querySelector("#password2").value
+    };
 
-            
-            const data = await loginPost.json();
-            console.log(data)
-            if (!loginPost.ok) {
-                throw new Error(`HTTP error! status:${loginPost.status}`);
+    try {
+        const loginPost = await fetch(`api/Users/login?email=${currentUser.email}&password=${currentUser.password}`, {
+            method: "POST",
+            headers: {
+                'Content-type': 'application/json'
             }
+        });
 
-            sessionStorage.setItem("Id", data.id)
-            window.location.href = 'update.html'
-
+        if (loginPost.status === 204) {
+            alert("User not found");
+            return;
         }
-        catch (error) {
-            alert("try again")
-            console.log(error)
-        } 
-}
+
+        if (!loginPost.ok) {
+            throw new Error(`HTTP error! status:${loginPost.status}`);
+        }
+
+        const data = await loginPost.json();
+        sessionStorage.setItem("Id", data.id);
+        window.location.href = 'update.html';
+    } catch (error) {
+        alert("Try again");
+        console.log(error);
+    }
+};
+
 
 const update = async () => {
-    const user = createUser()
-    const id=sessionStorage.getItem("Id")
+    const user = createUser();
+    const id = sessionStorage.getItem("Id");
+
     try {
         const response = await fetch(`api/Users/${id}`, {
             method: "PUT",
@@ -84,36 +79,38 @@ const update = async () => {
             },
             body: JSON.stringify(user)
         });
-        const data = await response.json();
-        if (!data.ok) {
-            throw new Error(`HTTP error! status:${data.status}`);
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status:${response.status}`);
         }
-        alert(`${user.FirstName} updated in sucseed😊😊😊😊😊`)
-        //sessionStorage.setItem
-        //update user in session
+
+        const data = await response.json();
+        alert(`${user.FirstName} updated successfully! 😊`);
+    } catch (error) {
+        console.log(error);
     }
-    catch (error) {
-        console.log(error)
-    }
-}
+};
+
 
 const checkPassword = async () => {
-    const Password = document.querySelector("#password").value
-    const Progress = document.querySelector("#progress")
-    alert(Password)
+    const Password = document.querySelector("#password").value;
+    const Progress = document.querySelector("#progress");
+
     try {
-        const response = await fetch(`api/Users/checkPassword`, {
+        const response = await fetch("api/Users/checkPassword", {
             method: "POST",
             headers: {
                 'Content-type': 'application/json'
             },
             body: JSON.stringify(Password)
         });
+
         const data = await response.json();
         console.log(data);
-        alert(data);
-        Progress.value = data+1;
-    }catch (error) {
-        console.log(error)
+        // ניתן להניח שה־API מחזיר ערך שמתאר את דרגת החוזק של הסיסמה
+        Progress.value = data + 1 || 0;  // זה רק דוגמה, תוודא לפי מה שה־API מחזיר
+    } catch (error) {
+        console.log(error);
     }
-}
+};
+

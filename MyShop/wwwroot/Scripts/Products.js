@@ -1,138 +1,143 @@
 ﻿addEventListener("load", () => {
-    let categoryArr=JSON.parse(sessionStorage.getItem("category"))||[]
-    let shoppingBag = JSON.parse(sessionStorage.getItem("shoppingBag")) || []
-    document.getElementById("ItemsCountText").textContent = shoppingBag.length
-    sessionStorage.setItem("category",JSON.stringify( categoryArr))
-    sessionStorage.setItem("shoppingBag",JSON.stringify( shoppingBag))
-    filterProducts()
-    drawCategory()
-})
+    initSessionData();
+    filterProducts();
+    drawCategory();
+});
+
+const initSessionData = () => {
+    const initialCategories = JSON.parse(sessionStorage.getItem("category")) || [];
+    const initialShoppingBag = JSON.parse(sessionStorage.getItem("shoppingBag")) || [];
+    document.getElementById("ItemsCountText").textContent = initialShoppingBag.length;
+    sessionStorage.setItem("category", JSON.stringify(initialCategories));
+    sessionStorage.setItem("shoppingBag", JSON.stringify(initialShoppingBag));
+};
 
 const getData = () => {
-        nameSearch = document.getElementById("nameSearch").value;
-        minPrice = parseFloat(document.getElementById("minPrice").value);
-        maxPrice = parseFloat(document.getElementById("maxPrice").value);
-        categories = sessionStorage.getItem("category")||[]
-       
-    return { nameSearch, minPrice, maxPrice, categories }
-}
+    const nameSearch = document.getElementById("nameSearch").value;
+    const minPrice = parseFloat(document.getElementById("minPrice").value);
+    const maxPrice = parseFloat(document.getElementById("maxPrice").value);
+    const categories = JSON.parse(sessionStorage.getItem("category")) || [];
+    return { nameSearch, minPrice, maxPrice, categories };
+};
 
 const filterProducts = async () => {
-    const currentSearch =await getData();
-    currentSearch.categories = JSON.parse(currentSearch.categories)
-    let url = "api/Products"
-    if (currentSearch.nameSearch || currentSearch.minPrice || currentSearch.maxPrice || currentSearch.categories.length !=0) 
-        url += "?"
-    if (currentSearch.nameSearch)
-        url += `&desc=${currentSearch.nameSearch}`
-    if (currentSearch.minPrice)
-        url += `&minPrice=${currentSearch.minPrice}`
-    if (currentSearch.maxPrice)
-        url += `&maxPrice=${currentSearch.maxPrice}`
-    if (currentSearch.categories.length != 0) {
-        for (let i = 0; i < currentSearch.categories.length; i++)
-            url += `&categoryIds=${currentSearch.categories[i]}`
-    }
-        
+    const searchParams = getData();
+    const url = buildUrl(searchParams);
+
     try {
-        const searchPost = await fetch(url, {
-            method: "GET",
-            headers: {
-                'Content-type': 'application/json'
-            }
-        });
-        if (searchPost.status == 204)
-            alert("not found product")
-        if (!searchPost.ok)
-            throw new Error(`HTTP error! status:${searchPost.status}`);
-        const data = await searchPost.json();
-        document.getElementById("counter").textContent=data.length
-        draw(data)
+        const products = await fetchProducts(url);
+        document.getElementById("counter").textContent = products.length;
+        draw(products);
+    } catch (error) {
+        console.error("Error fetching products:", error);
+        alert("Error: " + error);
     }
-    catch (error) {
-        alert("try again"+ error)
-        console.log(error)
+};
+
+const buildUrl = ({ nameSearch, minPrice, maxPrice, categories }) => {
+    let url = "api/Products";
+    const queryParams = [];
+
+    if (nameSearch) queryParams.push(`desc=${nameSearch}`);
+    if (minPrice) queryParams.push(`minPrice=${minPrice}`);
+    if (maxPrice) queryParams.push(`maxPrice=${maxPrice}`);
+    // if (categories) queryParams.push(`categories=${categories}`);
+    if (categories.length) {
+        categories.forEach(categoryId => queryParams.push(`categoryIds=${categoryId}`));
     }
-}
+
+    if (queryParams.length) {
+        url += "?" + queryParams.join("&");
+    }
+
+    return url;
+};
+
+const fetchProducts = async (url) => {
+    const response = await fetch(url, {
+        method: "GET",
+        headers: { 'Content-type': 'application/json' }
+    });
+
+    if (!response.ok) {
+        if (response.status == 204) {
+            alert("No products found");
+        } else {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+    }
+
+    return response.json();
+};
 
 const draw = (products) => {
-    document.getElementById("PoductList").innerHTML=""
-    for (let i = 0; i < products.length; i++) {
-        drawTemplete(products[i])
-    }
-}
+    document.getElementById("PoductList").innerHTML = "";
+    products.forEach(drawTemplate);
+};
 
-const drawTemplete = (product) => {
-    const templete = document.querySelector("#temp-card");
-    let cloneProduct = templete.content.cloneNode(true)
-    cloneProduct.querySelector("img").src = "../Images/" + product.image
-    cloneProduct.querySelector("h1").textContent = product.name
-    cloneProduct.querySelector(".price").innerText = product.price
-    cloneProduct.querySelector(".description").innerText = product.descreaption
-    cloneProduct.querySelector(".bag").addEventListener('click', () => { addToShoppingBag(product) })
-    document.getElementById("PoductList").appendChild(cloneProduct)
-}
+const drawTemplate = (product) => {
+    const template = document.querySelector("#temp-card");
+    const cloneProduct = template.content.cloneNode(true);
+    cloneProduct.querySelector("img").src = "../Images/" + product.image;
+    cloneProduct.querySelector("h1").textContent = product.name;
+    cloneProduct.querySelector(".price").innerText = product.price;
+    cloneProduct.querySelector(".description").innerText = product.descreaption;
+    cloneProduct.querySelector(".bag").addEventListener('click', () => addToShoppingBag(product));
+    document.getElementById("PoductList").appendChild(cloneProduct);
+};
 
-const getCategories =async () => {
+const getCategories = async () => {
     try {
-        const getCategory = await fetch("api/Categories", {
+        const response = await fetch("api/Categories", {
             method: "GET",
-            headers: {
-                'Content-type': 'application/json'
-            }
+            headers: { 'Content-type': 'application/json' }
         });
-        if (getCategory.status == 204)
-            alert("not found category")
-        if (!getCategory.ok)
-            throw new Error(`HTTP error! status:${getCategory.status}`);
-        const data = await getCategory.json();
-        console.log(data.length)
-        return data
-    }
-    catch (error) {
-        alert("try again")
-        console.log(error)
-    }
-}
-
-const drawCategory =async () => {
-    let categories = await getCategories()
-    for (let i = 0; i < categories?.length; i++) {
-        const templete = document.querySelector("#temp-category");
-        let cloneCategory = templete.content.cloneNode(true)
-        cloneCategory.querySelector("input").id=i
-        cloneCategory.querySelector("input").addEventListener('change', () => { fillterCategory(categories[i],i) })
-        cloneCategory.querySelector("label").textContent = categories[i].name
-        document.getElementById("categoryList").appendChild(cloneCategory)
-    }
-}    
-
-const fillterCategory = (category,index) => {
-    if (document.getElementById(index).checked) {
-        let categories = JSON.parse( sessionStorage.getItem("category"))
-
-        categories.push(category.id)
-        sessionStorage.setItem("category",JSON.stringify(categories))
-    }
-    else {
-        let categories = sessionStorage.getItem("category")
-        categories = JSON.parse(categories)
-        let i = 0
-        for (; i < categories.length; i++) {
-            if (categories[i] == category.id) {
-                break;
+        if (!response.ok) {
+            if (response.status == 204) {
+                alert("No categories found");
+            } else {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
         }
-        categories.splice(i,1)
-        sessionStorage.setItem("category", JSON.stringify(categories))
+
+        return await response.json();
+    } catch (error) {
+        console.error("Error fetching categories:", error);
+        alert("Error: try again");
     }
-    filterProducts()
-}
+};
+
+const drawCategory = async () => {
+    const categories = await getCategories();
+    categories.forEach(drawCategoryTemplate);
+};
+
+const drawCategoryTemplate = (category, index) => {
+    const template = document.querySelector("#temp-category");
+    const cloneCategory = template.content.cloneNode(true);
+    const inputElement = cloneCategory.querySelector("input");
+    inputElement.id = index;
+    inputElement.addEventListener('change', () => filterCategory(category, index));
+    cloneCategory.querySelector("label").textContent = category.name;
+    document.getElementById("categoryList").appendChild(cloneCategory);
+};
+
+const filterCategory = (category, index) => {
+    let categories = JSON.parse(sessionStorage.getItem("category"));
+
+    if (document.getElementById(index).checked) {
+        categories.push(category.id);
+    } else {
+        categories = categories.filter(id => id !== category.id);
+    }
+
+    sessionStorage.setItem("category", JSON.stringify(categories));
+    filterProducts();
+};
 
 const addToShoppingBag = (product) => {
-    let bags =JSON.parse( sessionStorage.getItem("shoppingBag"))
-    
-    bags.push(product)
-    sessionStorage.setItem("shoppingBag", JSON.stringify(bags))
-    document.getElementById("ItemsCountText").textContent = parseInt(document.getElementById("ItemsCountText").textContent) +1
-}
+    const bags = JSON.parse(sessionStorage.getItem("shoppingBag"));
+    bags.push(product);
+    sessionStorage.setItem("shoppingBag", JSON.stringify(bags));
+    document.getElementById("ItemsCountText").textContent = bags.length;
+};

@@ -1,4 +1,6 @@
 ﻿using Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Reposetories;
 using System;
 using System.Collections.Generic;
@@ -11,20 +13,47 @@ namespace Servicess
     public class OrderServices : IOrderServices
     {
         IOrderReposetory reposetory;
-        public OrderServices(IOrderReposetory reposetory)
+        IProductReposetory productReposetory;
+        private readonly ILogger<OrderServices> _logger;
+        public OrderServices(IOrderReposetory reposetory, IProductReposetory productReposetory)
         {
             this.reposetory = reposetory;
+            this.productReposetory = productReposetory;
         }
         public async Task<Order> GetById(int id)
         {
             return await reposetory.GetById(id);
 
         }
-        public async Task<Order> Add(Order order)
+        public async Task<Order> Post(Order order)
         {
-            return await reposetory.Add(order);
+            await checkSum(order);
+            return await reposetory.Post(order);
+
+        }
+        private async Task checkSum(Order order)
+        {
+            float sum = 0;
+
+            foreach (var o in order.OrderItems)
+            {
+                Product product = await productReposetory.GetById(o.ProductId);
+                sum += product.Price;
+
+            }
+
+
+            if (sum != order.Sum)
+            {
+                //_logger.LogError($"ניסיון לגניבה !!!יש לבדוק דחוף.");
+                order.Sum = sum;
+
+
+
+            }
+
         }
 
-      
+
     }
 }
