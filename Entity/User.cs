@@ -8,7 +8,7 @@ namespace Entities;
 public partial class User
 {
     public int Id { get; set; }
-    [EmailAddress,Required]
+    [EmailAddress]
     public string Email { get; set; } = null!;
 
     public string Password { get; set; } = null!;

@@ -4,32 +4,59 @@
 }
 
 const createUser = () => {
-    email = document.querySelector("#email").value,
-        Password = document.querySelector("#password").value,
-        FirstName = document.querySelector("#fname").value,
-        LastName = document.querySelector("#lname").value
-    return { email, Password, FirstName, LastName }
-}
+    const email = document.querySelector("#email").value;
+    const Password = document.querySelector("#password").value;
+    const FirstName = document.querySelector("#fname").value;
+    const LastName = document.querySelector("#lname").value;
+    const firsNameError = document.querySelector("#firsNameError");
+    const emailError = document.querySelector("#emailError");
+    const passwordError = document.querySelector("#passwordError");
+    const Progress = document.querySelector("#progress").value;
+
+    firsNameError.textContent = ""; 
+    emailError.textContent = ""; 
+    passwordError.textContent = "";
+    
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;    
+    if (!emailPattern.test(email)) {
+        emailError.textContent = "נא להכניס מייל תקין";
+        return null;
+    }
+
+    if (Progress < 3) {
+        passwordError.textContent = "יש להכניס ססמא חזקה";
+        return null
+    }
+
+    if (FirstName.length < 3 || FirstName.length > 20) {
+        firsNameError.textContent = "נא להכניס שם תקין בין 3 ל-20 תווים";
+        return null;
+    }
+
+    return { email, Password, FirstName, LastName };
+};
 
 const addUser = async () => {
     const newUser = createUser();
-    try {
-        const registerPost = await fetch('api/Users', {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newUser)
-        });
-        if (!registerPost.ok) {
-            throw new Error(`HTTP error! status:${registerPost.status}`);  // כאן זה היה loginPost
+    if (newUser) {
+        try {
+            const registerPost = await fetch('api/Users', {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newUser)
+            });
+            if (!registerPost.ok) {
+                throw new Error(`HTTP error! status:${registerPost.status}`);  
+            }
+            const dataPost = await registerPost.json();
+            console.log(dataPost);
+            alert(`Hi ${newUser.FirstName}, you need to login!`);
+        } catch (error) {
+            console.log(error);
+            alert(error);
         }
-        const dataPost = await registerPost.json();
-        console.log(dataPost);
-        alert(`Hi ${newUser.FirstName}, you need to login!`);
-    } catch (error) {
-        console.log(error);
-        alert(error);
     }
 }
 
@@ -95,7 +122,7 @@ const update = async () => {
 const checkPassword = async () => {
     const Password = document.querySelector("#password").value;
     const Progress = document.querySelector("#progress");
-
+ 
     try {
         const response = await fetch("api/Users/checkPassword", {
             method: "POST",
@@ -106,9 +133,8 @@ const checkPassword = async () => {
         });
 
         const data = await response.json();
-        console.log(data);
-        // ניתן להניח שה־API מחזיר ערך שמתאר את דרגת החוזק של הסיסמה
-        Progress.value = data + 1 || 0;  // זה רק דוגמה, תוודא לפי מה שה־API מחזיר
+        Progress.value = data + 1 || 0; 
+
     } catch (error) {
         console.log(error);
     }
