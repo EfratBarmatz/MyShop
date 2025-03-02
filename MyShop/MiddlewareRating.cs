@@ -25,7 +25,7 @@ namespace MyShop
             r.Host = httpContext.Request.Host.ToString();
             r.Method = httpContext.Request.Method.ToString();
             r.Path = httpContext.Request.Path.ToString();
-            r.Referer = httpContext.Request.Headers.Referer;
+            r.Referer = httpContext.Request.Headers.Referer.ToString();
             r.UserAgent = httpContext.Request.Headers.UserAgent.ToString();
             r.RecordDate = DateTime.Now;
             ratingService.Post(r);

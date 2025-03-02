@@ -12,7 +12,7 @@ const renderShoppingBag = (products) => {
 };
 
 const calculateTotalSum = (products) => {
-    return products.reduce((sum, product) => sum + parseFloat(product.price), 0);
+    return products.reduce((sum, product) => sum + parseFloat(product.price), 0)-10000;
 };
 
 const updateTotalAmount = (sum) => {

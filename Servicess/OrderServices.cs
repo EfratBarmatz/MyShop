@@ -15,10 +15,11 @@ namespace Servicess
         IOrderReposetory reposetory;
         IProductReposetory productReposetory;
         private readonly ILogger<OrderServices> _logger;
-        public OrderServices(IOrderReposetory reposetory, IProductReposetory productReposetory)
+        public OrderServices(IOrderReposetory reposetory, IProductReposetory productReposetory, ILogger<OrderServices> logger)
         {
             this.reposetory = reposetory;
             this.productReposetory = productReposetory;
+            _logger=logger;
         }
         public async Task<Order> GetById(int id)
         {
@@ -45,7 +46,8 @@ namespace Servicess
 
             if (sum != order.Sum)
             {
-                //_logger.LogError($"ניסיון לגניבה !!!יש לבדוק דחוף.");
+           
+                _logger.LogError($"ניסיון לגניבה !!!יש לבדוק דחוף.");
                 order.Sum = sum;
 
 

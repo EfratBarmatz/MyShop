@@ -38,7 +38,7 @@ namespace Reposetories
                 cmd.Parameters.Add("@RecordDate", SqlDbType.NVarChar, 50).Value = rating.RecordDate;
 
                 cn.Open();
-                int rowAffected = cmd.ExecuteNonQuery();
+                int rowAffected =await cmd.ExecuteNonQueryAsync();
                 cn.Close();
 
                 
