@@ -86,7 +86,7 @@ const login = async () => {
 
         const data = await loginPost.json();
         sessionStorage.setItem("Id", data.id);
-        window.location.href = 'update.html';
+        window.location.href = 'ShoppingBag.html';
     } catch (error) {
         alert("Try again");
         console.log(error);
@@ -96,25 +96,29 @@ const login = async () => {
 
 const update = async () => {
     const user = createUser();
-    const id = sessionStorage.getItem("Id");
+    if (user) {
+        const id = sessionStorage.getItem("Id");
 
-    try {
-        const response = await fetch(`api/Users/${id}`, {
-            method: "PUT",
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify(user)
-        });
+        try {
+            const response = await fetch(`api/Users/${id}`, {
+                method: "PUT",
+                headers: {
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify(user)
+            });
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status:${response.status}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status:${response.status}`);
+            }
+
+            const data = await response.json();
+            
+            alert(`${user.FirstName} updated successfully! 😊`);
+            window.location.href = 'ShoppingBag.html';
+        } catch (error) {
+            console.log(error);
         }
-
-        const data = await response.json();
-        alert(`${user.FirstName} updated successfully! 😊`);
-    } catch (error) {
-        console.log(error);
     }
 };
 

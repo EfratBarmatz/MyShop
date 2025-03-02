@@ -29,6 +29,7 @@ namespace Servicess
         public async Task<Order> Post(Order order)
         {
             await checkSum(order);
+
             return await reposetory.Post(order);
 
         }
@@ -47,7 +48,7 @@ namespace Servicess
             if (sum != order.Sum)
             {
            
-                _logger.LogError($"ניסיון לגניבה !!!יש לבדוק דחוף.");
+                _logger.LogError("ניסיון לגניבה !!!יש לבדוק דחוף.");
                 order.Sum = sum;
 
 
