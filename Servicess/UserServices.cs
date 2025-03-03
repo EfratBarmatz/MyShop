@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Microsoft.Extensions.Logging;
 using Reposetories;
 using System.Reflection.Metadata.Ecma335;
 using System.Text.Json;
@@ -10,10 +11,11 @@ namespace Servicess
     public class UserServices : IUserServices
     {
         IUserReposetory reposetory;
-
-        public UserServices(IUserReposetory reposetory)
+        private readonly ILogger<UserServices> logger;
+        public UserServices(IUserReposetory reposetory,ILogger<UserServices> logger)
         {
             this.reposetory = reposetory;
+            this.logger = logger;
         }
 
         
@@ -33,13 +35,20 @@ namespace Servicess
 
         public async Task<User> Login(string email, string password)
         {
-            return await reposetory.Login(email, password);
+            User user =await reposetory.Login(email, password);
+            logger.LogInformation($"{user.Id}, {user.Email}, {user.FirstName}, {user.LastName} login to app!!");
+            return user;
         }
 
         public async Task<User> Update(int id, User userToUpdate)
         {
             if (CheckPassword(userToUpdate.Password) >= 3)
-                return await reposetory.Update(id, userToUpdate);
+            {
+                User user=await reposetory.Update(id, userToUpdate);
+               
+                return user;
+            }
+                 
             return null;
         }
 
