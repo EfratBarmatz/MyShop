@@ -5,7 +5,7 @@
 });
 
 const initSessionData = () => {
-    const initialCategories = JSON.parse(sessionStorage.getItem("category")) || [];
+    const initialCategories =  [];
     const initialShoppingBag = JSON.parse(sessionStorage.getItem("shoppingBag")) || [];
     document.getElementById("ItemsCountText").textContent = initialShoppingBag.length;
     sessionStorage.setItem("category", JSON.stringify(initialCategories));
