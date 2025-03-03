@@ -45,7 +45,6 @@ namespace Servicess
             if (CheckPassword(userToUpdate.Password) >= 3)
             {
                 User user=await reposetory.Update(id, userToUpdate);
-               
                 return user;
             }
                  
