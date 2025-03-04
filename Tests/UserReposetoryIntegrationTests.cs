@@ -77,8 +77,8 @@ namespace Test
             // Arrange
             var user = new User { Email = "testuser@example.com", Password = "securepassword" };
 
-            //_context.Users.Add(user);
-            //await _context.SaveChangesAsync();
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
 
             // Act
             //var loggedInUser = await _context.Users

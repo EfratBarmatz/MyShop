@@ -4,27 +4,29 @@
     <script defer src="Scripts/Home.js"></script>
     <meta charset="utf-8" />
     <title>update</title>
+    <link rel="stylesheet" type="text/css" href="Style/Home.css" />
 </head>
 <body>
-    <h1>Update your user</h1>
+    <h1>Update your detailes</h1>
     <div class="update">
-        <label>שם משתמש</label>
+
         <input type="email" placeholder="enter an adress email" id="email" />
         <small id="emailError"></small>
         <br /><br />
-        <label>סיסמא</label>
-        <input type="password" id="password" onblur="checkPassword()" /><progress id="progress" value="0" max="5"></progress>
+
+        <input type="password" placeholder="password" id="password" onblur="checkPassword()" /><progress id="progress" value="0" max="5"></progress>
         <small id="passwordError"></small>
         <br /><br />
-        <label>שם פרטי</label>
-        <input type="text" id="fname" />
+
+        <input type="text" placeholder="first name" id="fname" />
         <small id="firsNameError"></small>
         <br /><br />
-        <label>שם משפחה</label>
-        <input type="text" id="lname" />
+
+        <input type="text" placeholder="last name" id="lname" />
         <br /><br />
         <button onclick="update()">רישום</button>
         <br /><br />
     </div>
+    
 </body>
 </html>

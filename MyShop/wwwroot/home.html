@@ -8,36 +8,37 @@
    
 </head>
 <body dir="rtl">
-    <div class="register">
-        <label>שם משתמש</label>
-        <input type="email" placeholder="enter an adress email" id="email" />
-        <small id="emailError"></small>
-        <br /><br />
-        <label>סיסמא</label>
-        <input type="password" id="password" onblur="checkPassword()" /><progress id="progress" value="0" max="5"></progress>
-        <small id="passwordError"></small>
-        <br /><br />
-        <label>שם פרטי</label>
-        <input type="text" id="fname" />
-        <small id="firsNameError"></small>
-        <br /><br />
-        <label>שם משפחה</label>
-        <input type="text" id="lname" />
-        <br /><br />
-        <button onclick="addUser()">רישום</button>
-        <br /><br />
-    </div>
     <div class="login">
-        <label>שם משתמש</label>
-        <input type="email" placeholder="enter an adress email" id="email2" />
+
+        <input type="email" placeholder="adress email" id="email2" />
         <br /><br />
-        <label>סיסמא</label>
-        <input type="password" id="password2"/>
+
+        <input type="password" placeholder="password" id="password2" />
         <br /><br />
         <button onclick="login()">כניסה</button>
         <button onclick="goRegister()">?משתמש חדש</button>
         <a></a>
         <br /><br />
     </div>
+    <div class="register">
+
+        <input type="email" placeholder="adress email" id="email" />
+        <small id="emailError"></small>
+        <br /><br />
+
+        <input type="password" placeholder="password" id="password" onblur="checkPassword()" /><progress id="progress" value="0" max="5"></progress>
+        <small id="passwordError"></small>
+        <br /><br />
+
+        <input type="text" placeholder="first name" id="fname" />
+        <small id="firsNameError"></small>
+        <br /><br />
+
+        <input type="text" placeholder="last name" id="lname" />
+        <br /><br />
+        <button onclick="addUser()">רישום</button>
+        <br /><br />
+    </div>
+
 </body>
 </html>

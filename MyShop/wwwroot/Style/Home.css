@@ -1,5 +1,4 @@
-﻿﻿
-.register {
+﻿.register {
     visibility: hidden;
 }
 
@@ -22,11 +21,11 @@ progress {
 
 
 .hide {
-    visibility: hidden;
+    visibility: visible;
 }
 
 .show {
-    visibility: visible;
+    visibility: hidden;
 }
 
 body {
