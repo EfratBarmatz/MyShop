@@ -37,8 +37,11 @@ const drawTemplate = (product) => {
 
 const removeProductFromBag = (product) => {
     let shoppingBag = JSON.parse(sessionStorage.getItem("shoppingBag")) || [];
-    shoppingBag = shoppingBag.filter(item => item.id !== product.id);
+    let pId = shoppingBag.findIndex((p) =>  p.id ==product.id)
+    //shoppingBag = shoppingBag.filter(item => item.id !== product.id);
+    shoppingBag.splice(pId,1)
     sessionStorage.setItem("shoppingBag", JSON.stringify(shoppingBag));
+    document.querySelector("tbody").innerHTML = ""
     renderShoppingBag(shoppingBag);
 };
 

@@ -11,11 +11,11 @@ namespace Servicess
     public class UserServices : IUserServices
     {
         IUserReposetory reposetory;
-        private readonly ILogger<UserServices> logger;
-        public UserServices(IUserReposetory reposetory,ILogger<UserServices> logger)
+       
+        public UserServices(IUserReposetory reposetory)
         {
             this.reposetory = reposetory;
-            this.logger = logger;
+            
         }
 
         
@@ -36,7 +36,7 @@ namespace Servicess
         public async Task<User> Login(string email, string password)
         {
             User user =await reposetory.Login(email, password);
-            logger.LogInformation($"{user.Id}, {user.Email}, {user.FirstName}, {user.LastName} login to app!!");
+            
             return user;
         }
 

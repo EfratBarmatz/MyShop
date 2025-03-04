@@ -19,7 +19,7 @@ namespace MyShop
             _next = next;
         }
 
-        public  Task Invoke(HttpContext httpContext, IRatingServices ratingService)
+        public async Task Invoke(HttpContext httpContext, IRatingServices ratingService)
         {
             Rating r = new();
             r.Host = httpContext.Request.Host.ToString();
@@ -28,8 +28,8 @@ namespace MyShop
             r.Referer = httpContext.Request.Headers.Referer.ToString();
             r.UserAgent = httpContext.Request.Headers.UserAgent.ToString();
             r.RecordDate = DateTime.Now;
-            ratingService.Post(r);
-            return _next(httpContext);
+            await ratingService.Post(r);
+            await _next(httpContext);
             
         }
     }

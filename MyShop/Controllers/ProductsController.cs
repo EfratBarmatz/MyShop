@@ -2,6 +2,7 @@
 using DTO;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Servicess;
 using System.Collections.Generic;
 
@@ -16,10 +17,12 @@ namespace MyShop.Controllers
     {
         IProductServices services;
         IMapper mapper;
-        public ProductsController(IProductServices services, IMapper mapper)
+        IMemoryCache memoryCache;
+        public ProductsController(IProductServices services, IMapper mapper,IMemoryCache memoryCache)
         {
             this.services = services;
             this.mapper = mapper;
+            this.memoryCache = memoryCache; 
         }
         // GET: api/<ProductsController>
         [HttpGet]
@@ -27,13 +30,23 @@ namespace MyShop.Controllers
 
         public async Task<ActionResult<List<ProductDTO>>> Get(string? desc,float? minPrice,float? maxPrice, [FromQuery] int?[] categoryIds)
         {
-            List<Product> products = await services.Get(desc,minPrice, maxPrice, categoryIds);
-            List<ProductDTO> productsDTO = mapper.Map<List<Product>, List<ProductDTO>>(products);
-            if (productsDTO != null)
-                return Ok(productsDTO);
-            return BadRequest();
-        }
+            
+                List<Product> products = await services.Get(desc, minPrice, maxPrice, categoryIds);
+                List<ProductDTO> productsDTO = mapper.Map<List<Product>, List<ProductDTO>>(products);
+                if (productsDTO != null)
+                {
+                    
+                    return Ok(productsDTO);
+                }
+               
+                return BadRequest();
 
+               
+
+            
+            
+        }
+       
 
 
     }

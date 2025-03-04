@@ -17,6 +17,7 @@ builder.Services.AddScoped<ICategoryReposetory, CategoryReposetory>();
 builder.Services.AddScoped<IOrderReposetory, OrderReposetory>();
 builder.Services.AddScoped<IRatingReposetory,RatingReposetory>();
 builder.Services.AddDbContext<MyShop327707238Context>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("School")));
+builder.Services.AddMemoryCache();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 // Add services to the container.
 

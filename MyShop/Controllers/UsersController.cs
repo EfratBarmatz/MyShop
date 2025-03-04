@@ -12,14 +12,17 @@ namespace MyShop.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+   
     public class UsersController : ControllerBase
     {
+        private readonly ILogger<UserServices> logger;
         IUserServices servicess;
         IMapper mapper;
-        public UsersController(IUserServices servicess, IMapper mapper)
+        public UsersController(IUserServices servicess, IMapper mapper, ILogger<UserServices> logger)
         {
             this.servicess = servicess;
             this.mapper = mapper;
+            this.logger = logger;
         }
 
         // GET api/<Users>/5
@@ -49,7 +52,12 @@ namespace MyShop.Controllers
         {
             User user = await servicess.Login(email, password);
             if (user != null)
+            {
+                logger.LogInformation($"{user.Id}, {user.Email}, {user.FirstName}, {user.LastName} login to app!!");
                 return Ok(mapper.Map<User, UserDTOGet>(user));
+                
+            }
+               
             return NoContent();
         }
 
