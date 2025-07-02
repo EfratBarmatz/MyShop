@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using Microsoft.EntityFrameworkCore;
 using MyShop;
 using NLog.Web;
@@ -16,6 +19,7 @@ builder.Services.AddScoped<IProductReposetory, ProductReposetory>();
 builder.Services.AddScoped<ICategoryReposetory, CategoryReposetory>();
 builder.Services.AddScoped<IOrderReposetory, OrderReposetory>();
 builder.Services.AddScoped<IRatingReposetory,RatingReposetory>();
+builder.Services.AddScoped<TokenService>();
 builder.Services.AddDbContext<MyShop327707238Context>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("School")));
 builder.Services.AddMemoryCache();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -36,13 +40,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseMiddlewareRating();
+app.UseMiddleware<JwtCookieMiddleware>();
 
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
-
-
-
 
 app.UseAuthorization();
 

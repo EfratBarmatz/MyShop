@@ -5,6 +5,7 @@ using Servicess;
 using Entities;
 using AutoMapper;
 using DTO;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,11 +19,13 @@ namespace MyShop.Controllers
         private readonly ILogger<UserServices> logger;
         IUserServices servicess;
         IMapper mapper;
-        public UsersController(IUserServices servicess, IMapper mapper, ILogger<UserServices> logger)
+        private readonly TokenService _tokenService;
+        public UsersController(IUserServices servicess, IMapper mapper, ILogger<UserServices> logger, TokenService tokenService)
         {
             this.servicess = servicess;
             this.mapper = mapper;
             this.logger = logger;
+            _tokenService = tokenService;
         }
 
         // GET api/<Users>/5
@@ -54,10 +57,16 @@ namespace MyShop.Controllers
             if (user != null)
             {
                 logger.LogInformation($"{user.Id}, {user.Email}, {user.FirstName}, {user.LastName} login to app!!");
+                var token = _tokenService.GenerateToken(user.Email, "User");
+                Response.Cookies.Append("jwt_token", token, new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict,
+                    Expires = DateTimeOffset.UtcNow.AddHours(1)
+                });
                 return Ok(mapper.Map<User, UserDTOGet>(user));
-                
             }
-               
             return NoContent();
         }
 
@@ -69,6 +78,7 @@ namespace MyShop.Controllers
 
         // PUT api/<Users>/5
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<ActionResult<UserDTOGet>> Put(int id, [FromBody] UserDTO userToUpdate)
         {
             User user = await servicess.Update(id, mapper.Map<UserDTO, User>(userToUpdate));
